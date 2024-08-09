@@ -1,6 +1,6 @@
 {
-    "name": "concatenate-files",
-    "displayName": "Concatenate Files",
+    "name": "combo-concatenate-files",
+    "displayName": "Combo - Concatenate Files",
     "description": "Concatena tutti i file selezionati in un unico file di testo.",
     "version": "0.0.1",
     "engines": {
@@ -11,6 +11,7 @@
         "*"
     ],
     "main": "./out/extension.js",
+    "author": "Domenico Copia",
     "contributes": {
         "commands": [
             {
