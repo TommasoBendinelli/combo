@@ -1,0 +1,44 @@
+{
+    "name": "concatenate-files",
+    "displayName": "Concatenate Files",
+    "description": "Concatena tutti i file selezionati in un unico file di testo.",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.50.0"
+    },
+    "activationEvents": [
+        "onCommand:concatenateFiles.concatenate"
+    ],
+    "main": "./out/extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "concatenateFiles.concatenate",
+                "title": "Concatenate Files",
+                "category": "File"
+            }
+        ],
+        "menus": {
+            "explorer/context": [
+                {
+                    "command": "concatenateFiles.concatenate",
+                    "when": "explorerResourceIsFolder || resourceLangId",
+                    "group": "navigation"
+                }
+            ]
+        }
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "package": "vsce package",
+        "test": "npm run compile && node ./out/test/runTest.js"
+    },
+    "devDependencies": {
+        "@types/node": "^12.11.7",
+        "@types/vscode": "^1.50.0",
+        "typescript": "^3.7.3",
+        "vscode-test": "^1.2.0"
+    }
+}
