@@ -12,6 +12,7 @@
     ],
     "main": "./out/extension.js",
     "author": "Domenico Copia",
+    "publisher": "Domenico Copia",
     "contributes": {
         "commands": [
             {
