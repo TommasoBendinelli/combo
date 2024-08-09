@@ -4,10 +4,11 @@
     "description": "Concatena tutti i file selezionati in un unico file di testo.",
     "version": "0.0.1",
     "engines": {
-        "vscode": "^1.50.0"
+        "vscode": "^1.75.0"
     },
+    "icon": "combo.png",
     "activationEvents": [
-        "onCommand:concatenateFiles.concatenate"
+        "*"
     ],
     "main": "./out/extension.js",
     "contributes": {
@@ -40,5 +41,10 @@
         "@types/vscode": "^1.50.0",
         "typescript": "^3.7.3",
         "vscode-test": "^1.2.0"
+    },
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/dcopia/combo"
     }
 }
