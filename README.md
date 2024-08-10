@@ -1,19 +1,21 @@
-# Concatenate Files
+# Combo - Concatenate Files
 
-## Descrizione
-Questa estensione permette di concatenare tutti i file selezionati in un unico file di testo.
+## Description
+This extension allows you to concatenate all selected files into a single text file.
 
-## Come usare
-1. Seleziona i file che desideri concatenare nel file explorer di VS Code.
-2. Fai clic destro e seleziona "Concatenate Files" dal menu contestuale.
-3. L'estensione creerà un nuovo file contenente il contenuto dei file selezionati concatenati.
+## Usage
+1. Select the files or folders you want to concatenate in the VS Code file explorer.
+2. Right-click and select "Concatenate Files" from the context menu.
+3. The extension will create a new file containing the concatenated content of the selected files.
 
-## Installazione
-1. Scarica e installa l'estensione dal [Visual Studio Code Marketplace](https://marketplace.visualstudio.com/).
-2. Oppure, scarica il file `.vsix` e installalo manualmente da VS Code.
+## Installation
+1. Download and install the extension from the [Visual Studio Code Marketplace](https://marketplace.visualstudio.com/).
+2. Alternatively, download the `.vsix` file and install it manually from VS Code.
 
-## Contributi
-Se vuoi contribuire allo sviluppo di questa estensione, sentiti libero di fare una fork del repository e inviare una pull request.
+## Contributions
+If you would like to contribute to the development of this extension, feel free to fork the repository and submit a pull request.
 
-## Licenza
-Questa estensione è rilasciata sotto la licenza MIT.
+## License
+This extension is released under the MIT license.
+
+![Combo Logo](combo.png)

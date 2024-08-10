@@ -1,18 +1,19 @@
 {
     "name": "combo-concatenate-files",
     "displayName": "Combo - Concatenate Files",
-    "description": "Concatena tutti i file selezionati in un unico file di testo.",
-    "version": "0.0.1",
+    "description": "Concatenates all selected files into a single text file.",
+    "version": "1.0.0",
     "engines": {
         "vscode": "^1.75.0"
     },
     "icon": "combo.png",
-    "activationEvents": [
-        "*"
-    ],
     "main": "./out/extension.js",
     "author": "Domenico Copia",
-    "publisher": "Domenico Copia",
+    "publisher": "dcopia",
+    "readme": "README.md",
+    "activationEvents": [
+        "onCommand:concatenateFiles.concatenate"
+    ],
     "contributes": {
         "commands": [
             {
@@ -26,23 +27,28 @@
                 {
                     "command": "concatenateFiles.concatenate",
                     "when": "explorerResourceIsFolder || resourceLangId",
-                    "group": "navigation"
+                    "group": "2_modification"
                 }
             ]
         }
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",
-        "compile": "tsc -p ./",
+        "compile": "tsc -p ./ && npm run webpack",
+        "webpack": "webpack --config webpack.config.js",
         "watch": "tsc -watch -p ./",
         "package": "vsce package",
         "test": "npm run compile && node ./out/test/runTest.js"
     },
     "devDependencies": {
+        "@types/mocha": "^8.0.0",
         "@types/node": "^12.11.7",
         "@types/vscode": "^1.50.0",
-        "typescript": "^3.7.3",
-        "vscode-test": "^1.2.0"
+        "typescript": "^4.0.0",
+        "vscode-test": "^1.2.0",
+        "webpack": "^5.0.0",
+        "webpack-cli": "^4.0.0",
+        "ts-loader": "^8.0.0"
     },
     "license": "MIT",
     "repository": {

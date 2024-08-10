@@ -1,25 +1,25 @@
-import * as vscode from 'vscode';
-import * as fs from 'fs';
-import * as path from 'path';
+import { commands, ExtensionContext, Uri, window, workspace } from 'vscode';
+import { createWriteStream, readdirSync, readFileSync, statSync, WriteStream } from 'fs';
+import { join, relative } from 'path';
 
-export function activate(context: vscode.ExtensionContext) {
-    let disposable = vscode.commands.registerCommand('concatenateFiles.concatenate', async (uri: vscode.Uri, uris: vscode.Uri[]) => {
+export function activate(context: ExtensionContext) {
+    let disposable = commands.registerCommand('concatenateFiles.concatenate', async (uri: Uri, uris: Uri[]) => {
         if (!uris || uris.length === 0) {
-            vscode.window.showErrorMessage('Seleziona una o più cartelle o file prima di utilizzare questa estensione.');
+            window.showErrorMessage('Seleziona una o più cartelle o file prima di utilizzare questa estensione.');
             return;
         }
 
-        const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
+        const workspaceFolder = workspace.workspaceFolders?.[0];
         if (!workspaceFolder) {
-            vscode.window.showErrorMessage('Apri una cartella prima di utilizzare questa estensione.');
+            window.showErrorMessage('Apri una cartella prima di utilizzare questa estensione.');
             return;
         }
 
-        const outputFilePath = path.join(workspaceFolder.uri.fsPath, 'concatenated.txt');
-        const outputStream = fs.createWriteStream(outputFilePath, { flags: 'w' });
+        const outputFilePath = join(workspaceFolder.uri.fsPath, 'concatenated.txt');
+        const outputStream = createWriteStream(outputFilePath, { flags: 'w' });
 
         for (const itemUri of uris) {
-            if (fs.statSync(itemUri.fsPath).isDirectory()) {
+            if (statSync(itemUri.fsPath).isDirectory()) {
                 concatenateDirectory(itemUri.fsPath, outputStream, workspaceFolder.uri.fsPath);
             } else {
                 concatenateFile(itemUri.fsPath, outputStream, workspaceFolder.uri.fsPath);
@@ -27,17 +27,17 @@ export function activate(context: vscode.ExtensionContext) {
         }
 
         outputStream.end();
-        vscode.window.showInformationMessage(`File concatenato creato: ${outputFilePath}`);
+        window.showInformationMessage(`File concatenato creato: ${outputFilePath}`);
     });
 
     context.subscriptions.push(disposable);
 }
 
-function concatenateDirectory(directoryPath: string, outputStream: fs.WriteStream, rootPath: string) {
-    const files = fs.readdirSync(directoryPath);
+function concatenateDirectory(directoryPath: string, outputStream: WriteStream, rootPath: string) {
+    const files = readdirSync(directoryPath);
     for (const file of files) {
-        const filePath = path.join(directoryPath, file);
-        if (fs.statSync(filePath).isDirectory()) {
+        const filePath = join(directoryPath, file);
+        if (statSync(filePath).isDirectory()) {
             concatenateDirectory(filePath, outputStream, rootPath);
         } else {
             concatenateFile(filePath, outputStream, rootPath);
@@ -45,9 +45,9 @@ function concatenateDirectory(directoryPath: string, outputStream: fs.WriteStrea
     }
 }
 
-function concatenateFile(filePath: string, outputStream: fs.WriteStream, rootPath: string) {
-    const fileContent = fs.readFileSync(filePath, 'utf-8');
-    const relativePath = path.relative(rootPath, filePath);
+function concatenateFile(filePath: string, outputStream: WriteStream, rootPath: string) {
+    const fileContent = readFileSync(filePath, 'utf-8');
+    const relativePath = relative(rootPath, filePath);
     outputStream.write(`\n\n==== ${relativePath} ====\n\n`);
     outputStream.write(fileContent);
 }
