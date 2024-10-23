@@ -2,7 +2,7 @@
     "name": "combo-concatenate-files",
     "displayName": "Combo - Concatenate Files",
     "description": "Concatenates all selected files into a single text file.",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "engines": {
         "vscode": "^1.75.0"
     },
