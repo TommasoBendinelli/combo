@@ -18,16 +18,33 @@
         "commands": [
             {
                 "command": "concatenateFiles.concatenate",
-                "title": "Concatenate Files",
-                "category": "File"
+                "title": "Concatenate Files"
+            },
+            {
+                "command": "concatenateFiles.copy",
+                "title": "Copy Concatenated Files"
+            },
+            {
+                "command": "concatenateFiles.copyStructure",
+                "title": "Copy Folder Structure"
             }
         ],
         "menus": {
             "explorer/context": [
                 {
                     "command": "concatenateFiles.concatenate",
-                    "when": "explorerResourceIsFolder || resourceLangId",
-                    "group": "2_modification"
+                    "group": "myExtension@1",
+                    "when": "explorerViewletVisible"
+                },
+                {
+                    "command": "concatenateFiles.copy",
+                    "group": "myExtension@2",
+                    "when": "explorerViewletVisible"
+                },
+                {
+                    "command": "concatenateFiles.copyStructure",
+                    "group": "myExtension@3",
+                    "when": "explorerViewletVisible"
                 }
             ]
         }
