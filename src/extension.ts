@@ -6,13 +6,13 @@ import * as os from 'os';
 export function activate(context: ExtensionContext) {
     let disposable = commands.registerCommand('concatenateFiles.concatenate', async (uri: Uri, uris: Uri[]) => {
         if (!uris || uris.length === 0) {
-            window.showErrorMessage('Seleziona una o più cartelle o file prima di utilizzare questa funzione.');
+            window.showErrorMessage('Select one or more folders or files before using this function.');
             return;
         }
 
         const workspaceFolder = workspace.workspaceFolders?.[0];
         if (!workspaceFolder) {
-            window.showErrorMessage('Apri una cartella prima di utilizzare questa funzione.');
+            window.showErrorMessage('Open a folder before using this function.');
             return;
         }
 
@@ -54,7 +54,7 @@ export function activate(context: ExtensionContext) {
         if (errorCount > 0) {
             window.showWarningMessage(`Concatenation completed with ${errorCount} errors. Check the output for details.`);
         } else {
-            window.showInformationMessage(`File concatenato salvato come: ${tempFilePath}`);
+            window.showInformationMessage(`Concatenated file saved as: ${tempFilePath}`);
         }
         
         // Open the temporary file
@@ -64,13 +64,13 @@ export function activate(context: ExtensionContext) {
 
     let copyDisposable = commands.registerCommand('concatenateFiles.copy', async (uri: Uri, uris: Uri[]) => {
         if (!uris || uris.length === 0) {
-            window.showErrorMessage('Seleziona una o più cartelle o file prima di utilizzare questa funzione.');
+            window.showErrorMessage('Select one or more folders or files before using this function.');
             return;
         }
 
         const workspaceFolder = workspace.workspaceFolders?.[0];
         if (!workspaceFolder) {
-            window.showErrorMessage('Apri una cartella prima di utilizzare questa funzione.');
+            window.showErrorMessage('Open a folder before using this function.');
             return;
         }
 
@@ -85,18 +85,18 @@ export function activate(context: ExtensionContext) {
         }
 
         await env.clipboard.writeText(concatenatedContent);
-        window.showInformationMessage('Contenuto concatenato copiato negli appunti.');
+        window.showInformationMessage('Concatenated content copied to clipboard.');
     });
 
     let copyStructureDisposable = commands.registerCommand('concatenateFiles.copyStructure', async (uri: Uri, uris: Uri[]) => {
         if (!uris || uris.length === 0) {
-            window.showErrorMessage('Seleziona una o più cartelle prima di utilizzare questa funzione.');
+            window.showErrorMessage('Select one or more folders before using this function.');
             return;
         }
 
         const workspaceFolder = workspace.workspaceFolders?.[0];
         if (!workspaceFolder) {
-            window.showErrorMessage('Apri una cartella prima di utilizzare questa funzione.');
+            window.showErrorMessage('Open a folder before using this function.');
             return;
         }
 
@@ -111,7 +111,7 @@ export function activate(context: ExtensionContext) {
         }
 
         await env.clipboard.writeText(structureContent);
-        window.showInformationMessage('Struttura delle cartelle copiata negli appunti.');
+        window.showInformationMessage('Folder structure copied to clipboard.');
     });
 
     context.subscriptions.push(disposable, copyDisposable, copyStructureDisposable);
