@@ -1,23 +1,23 @@
 # Combo - Concatenate Files
 
 ## Description
-Combo is a Visual Studio Code extension that allows you to concatenate multiple files into a single text file. It now supports handling image files and saves the concatenated output as a temporary file for easy viewing.
+Combo is a Visual Studio Code extension that allows you to concatenate multiple files into a single text file, copy concatenated content to the clipboard, and copy folder structures. It handles various file types, including image files, and provides a progress indicator during the concatenation process.
 
 ## Features
 - Concatenate multiple files and folders into a single text file
-- Automatically handles image files by including their names without content
-- Saves the concatenated output as a temporary file
-- Opens the concatenated file in VS Code for immediate viewing
-- Copy concatenated content to clipboard
+- Copy concatenated content of selected files and folders to clipboard
 - Copy folder structure of selected directories
+- Automatically handles image files by including their names without content
+- Saves the concatenated output as a temporary file and opens it in VS Code
+- Displays a progress indicator during concatenation
+- Works with both individual files and entire directories
 
 ## Usage
-1. Select the files or folders you want to concatenate in the VS Code file explorer.
+1. Select the files or folders you want to work with in the VS Code file explorer.
 2. Right-click and choose one of the following options from the context menu:
-   - "Concatenate Files": Creates a temporary file with concatenated content
+   - "Concatenate Files": Creates a temporary file with concatenated content and opens it in VS Code
    - "Copy Concatenated Files": Copies the concatenated content to clipboard
-   - "Copy Folder Structure": Copies the folder structure of selected directories
-3. For "Concatenate Files", the extension will create a temporary file and open it in VS Code.
+   - "Copy Folder Structure": Copies the folder structure of selected directories to clipboard
 
 ## Installation
 1. Install the extension from the [Visual Studio Code Marketplace](https://marketplace.visualstudio.com/).
@@ -26,9 +26,6 @@ Combo is a Visual Studio Code extension that allows you to concatenate multiple 
    - Click on the "..." menu at the top of the Extensions view
    - Choose "Install from VSIX..."
    - Select the downloaded .vsix file
-
-## Configuration
-No additional configuration is required. The extension works out of the box.
 
 ## Known Issues
 - Large files or a large number of files may take some time to process.
@@ -45,6 +42,6 @@ Contributions are welcome! If you'd like to contribute to the development of thi
 This extension is released under the MIT license.
 
 ## Support
-If you encounter any issues or have suggestions for improvements, please open an issue on the GitHub repository.
+If you encounter any issues or have suggestions for improvements, please open an issue on the [GitHub repository](https://github.com/dcopia/combo).
 
 ![Combo Logo](combo.png)
