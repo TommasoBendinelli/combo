@@ -3,6 +3,14 @@ import { createWriteStream, readdirSync, readFileSync, statSync, WriteStream } f
 import { join, relative, extname } from 'path';
 import * as os from 'os';
 
+const config = workspace.getConfiguration("comboConcatenateFiles");
+const ignoreExtensions = config.get<string[]>("ignoreExtensions") || [];
+
+function shouldIgnoreFile(filePath: string, ignoreList: string[]): boolean {
+    const ext = extname(filePath).toLowerCase();
+    return ignoreList.map(e => e.toLowerCase()).includes(ext);
+  }
+
 export function activate(context: ExtensionContext) {
     let disposable = commands.registerCommand('concatenateFiles.concatenate', async (uri: Uri, uris: Uri[]) => {
         if (!uris || uris.length === 0) {
@@ -164,7 +172,11 @@ async function concatenateFile(filePath: string, rootPath: string, writeStream: 
     
     const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp', '.svg'];
     
-    if (imageExtensions.includes(fileExtension)) {
+    // e.g. countFiles, concatenateDirectory, etc...
+    if (!shouldIgnoreFile(filePath, ignoreExtensions)) {
+        writeStream.write(`\n\n==== ${relativePath} (Not shown) === \n\n`);
+    }
+    else if (imageExtensions.includes(fileExtension)) {
         writeStream.write(`\n\n==== ${relativePath} (Image File) ====\n\n`);
     } else {
         try {

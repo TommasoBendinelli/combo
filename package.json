@@ -15,6 +15,17 @@
         "onCommand:concatenateFiles.concatenate"
     ],
     "contributes": {
+        "configuration": {
+            "type": "object",
+            "title": "Combo - Concatenate Files",
+            "properties": {
+              "comboConcatenateFiles.ignoreExtensions": {
+                "type": "array",
+                "description": "File extensions to ignore when concatenating or copying.",
+                "default": [".mp4"],
+                "items": {
+                  "type": "string"
+                }}}},
         "commands": [
             {
                 "command": "concatenateFiles.concatenate",
