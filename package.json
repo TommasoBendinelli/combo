@@ -2,7 +2,7 @@
     "name": "combo-concatenate-files",
     "displayName": "Combo - Concatenate Files",
     "description": "Concatenates all selected files into a single text file.",
-    "version": "1.1.1",
+    "version": "2.1.1",
     "engines": {
         "vscode": "^1.75.0"
     },
@@ -19,13 +19,25 @@
             "type": "object",
             "title": "Combo - Concatenate Files",
             "properties": {
-              "comboConcatenateFiles.ignoreExtensions": {
-                "type": "array",
-                "description": "File extensions to ignore when concatenating or copying.",
-                "default": [".mp4"],
-                "items": {
-                  "type": "string"
-                }}}},
+                "comboConcatenateFiles.ignoreExtensions": {
+                    "type": "array",
+                    "description": "File extensions to ignore when concatenating or copying.",
+                    "default": [
+                        ".jpg",
+                        ".jpeg",
+                        ".png",
+                        ".gif",
+                        ".bmp",
+                        ".webp",
+                        ".svg",
+                        ".mp4"
+                    ],
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
         "commands": [
             {
                 "command": "concatenateFiles.concatenate",
@@ -72,11 +84,12 @@
         "@types/mocha": "^8.0.0",
         "@types/node": "^12.11.7",
         "@types/vscode": "^1.50.0",
+        "ts-loader": "^8.0.0",
         "typescript": "^4.0.0",
+        "vsce": "^2.15.0",
         "vscode-test": "^1.2.0",
-        "webpack": "^5.0.0",
-        "webpack-cli": "^4.0.0",
-        "ts-loader": "^8.0.0"
+        "webpack": "^5.98.0",
+        "webpack-cli": "^4.10.0"
     },
     "license": "MIT",
     "repository": {

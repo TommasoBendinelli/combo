@@ -6,10 +6,10 @@ import * as os from 'os';
 const config = workspace.getConfiguration("comboConcatenateFiles");
 const ignoreExtensions = config.get<string[]>("ignoreExtensions") || [];
 
-function shouldIgnoreFile(filePath: string, ignoreList: string[]): boolean {
+function shouldNotDisplayFile(filePath: string, ignoreList: string[]): boolean {
     const ext = extname(filePath).toLowerCase();
     return ignoreList.map(e => e.toLowerCase()).includes(ext);
-  }
+}
 
 export function activate(context: ExtensionContext) {
     let disposable = commands.registerCommand('concatenateFiles.concatenate', async (uri: Uri, uris: Uri[]) => {
@@ -35,7 +35,6 @@ export function activate(context: ExtensionContext) {
             title: "Concatenating files...",
             cancellable: false
         }, async (progress: Progress<{ increment: number }>) => {
-            // First, count total files
             let totalFiles = await countTotalFiles(uris);
 
             let processedFiles = 0;
@@ -43,7 +42,15 @@ export function activate(context: ExtensionContext) {
             for (const itemUri of uris) {
                 try {
                     if (statSync(itemUri.fsPath).isDirectory()) {
-                        processedFiles = await concatenateDirectory(itemUri.fsPath, workspaceFolder.uri.fsPath, writeStream, progress, totalFiles, processedFiles);
+                        // Pass ignoreExtensions to handle skipping
+                        processedFiles = await concatenateDirectory(
+                            itemUri.fsPath,
+                            workspaceFolder.uri.fsPath,
+                            writeStream,
+                            progress,
+                            totalFiles,
+                            processedFiles,
+                        );
                     } else {
                         await concatenateFile(itemUri.fsPath, workspaceFolder.uri.fsPath, writeStream);
                         processedFiles++;
@@ -91,7 +98,6 @@ export function activate(context: ExtensionContext) {
                 concatenatedContent += concatenateFileContent(itemUri.fsPath, workspaceFolder.uri.fsPath);
             }
         }
-
         await env.clipboard.writeText(concatenatedContent);
         window.showInformationMessage('Concatenated content copied to clipboard.');
     });
@@ -168,17 +174,12 @@ async function concatenateDirectory(directoryPath: string, rootPath: string, wri
 
 async function concatenateFile(filePath: string, rootPath: string, writeStream: WriteStream): Promise<void> {
     const relativePath = relative(rootPath, filePath);
-    const fileExtension = extname(filePath).toLowerCase();
-    
-    const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp', '.svg'];
-    
+        
     // e.g. countFiles, concatenateDirectory, etc...
-    if (!shouldIgnoreFile(filePath, ignoreExtensions)) {
+    if (shouldNotDisplayFile(filePath, ignoreExtensions)) {
         writeStream.write(`\n\n==== ${relativePath} (Not shown) === \n\n`);
     }
-    else if (imageExtensions.includes(fileExtension)) {
-        writeStream.write(`\n\n==== ${relativePath} (Image File) ====\n\n`);
-    } else {
+    else {
         try {
             const fileContent = readFileSync(filePath, 'utf-8');
             writeStream.write(`\n\n==== ${relativePath} ====\n\n${fileContent}`);
@@ -197,16 +198,30 @@ function concatenateDirectoryContent(directoryPath: string, rootPath: string): s
         if (statSync(filePath).isDirectory()) {
             content += concatenateDirectoryContent(filePath, rootPath);
         } else {
-            content += concatenateFileContent(filePath, rootPath);
+            if (shouldNotDisplayFile(filePath, ignoreExtensions)) {
+                const relativePath = relative(rootPath, filePath);
+                content += `\n\n==== ${relativePath} (Not shown) ====\n\n`;
+            } else {
+                content += concatenateFileContent(filePath, rootPath);
+            }
         }
     }
     return content;
 }
 
+
 function concatenateFileContent(filePath: string, rootPath: string): string {
-    const fileContent = readFileSync(filePath, 'utf-8');
     const relativePath = relative(rootPath, filePath);
-    return `\n\n==== ${relativePath} ====\n\n${fileContent}`;
+
+    if (shouldNotDisplayFile(filePath, ignoreExtensions)) {
+        // If the extension is in the ignore list,
+        // show the placeholder and do NOT concatenate its content
+        return `\n\n==== ${relativePath} (Not shown) === \n\n`;
+    } else {
+        // Otherwise read it as normal
+        const fileContent = readFileSync(filePath, 'utf-8');
+        return `\n\n==== ${relativePath} ====\n\n${fileContent}`;
+    }
 }
 
 function getDirectoryStructure(directoryPath: string, rootPath: string, indent: string = ''): string {
